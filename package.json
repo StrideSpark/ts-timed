@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/StrideSpark/ts-timed/issues"
   },
-  "homepage": "https://github.com/StrideSpark/ts-timed#readme"
+  "homepage": "https://github.com/StrideSpark/ts-timed#readme",
+  "devDependencies": {
+    "typescript": "2.0.3"
+  }
 }

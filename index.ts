@@ -11,10 +11,10 @@
  * @param sendDuration
  * @returns {function(any, string, TypedPropertyDescriptor<Function>): undefined}
  */
-export function timedAsync(sendDuration : (className : string, functionName : string, durationMs : number) => Promise<any>) {
+export function timedAsync(sendDuration: (className: string, functionName: string, durationMs: number) => Promise<any>) {
     return function (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) {
-        let functionName : string = propertyName;
-        let className : string;
+        let functionName: string = propertyName;
+        let className: string;
         if (typeof target === 'function') {
             className = target.name;
         } else {
@@ -23,7 +23,10 @@ export function timedAsync(sendDuration : (className : string, functionName : st
         let method = descriptor.value;
         descriptor.value = function () {
             let start = new Date();
-            return method.apply(this, arguments).then((r:any) => {
+            if (!method) {
+                throw new Error('method missing');
+            }
+            return method.apply(this, arguments).then((r: any) => {
                 sendDuration(className, functionName, new Date().valueOf() - start.valueOf());
                 return r;
             });
@@ -40,10 +43,10 @@ export function timedAsync(sendDuration : (className : string, functionName : st
  * @param sendDuration
  * @returns {function(any, string, TypedPropertyDescriptor<Function>): undefined}
  */
-export function timed(sendDuration : (className : string, functionName : string, durationMs : number) => Promise<any>) {
+export function timed(sendDuration: (className: string, functionName: string, durationMs: number) => Promise<any>) {
     return function (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) {
-        let functionName : string = propertyName;
-        let className : string;
+        let functionName: string = propertyName;
+        let className: string;
         if (typeof target === 'function') {
             className = target.name;
         } else {
@@ -51,6 +54,9 @@ export function timed(sendDuration : (className : string, functionName : string,
         }
         let method = descriptor.value;
         descriptor.value = function () {
+            if (!method) {
+                throw new Error('method missing');
+            }
             let start = new Date();
             let ret = method.apply(this, arguments);
             sendDuration(className, functionName, new Date().valueOf() - start.valueOf());
