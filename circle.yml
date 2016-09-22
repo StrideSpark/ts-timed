@@ -1,23 +1,14 @@
 machine:
   node:
-    version: 6.3.0
+    version: 4.3.2
 
 dependencies:
   pre:
     - mv circle.npmrc ~/.npmrc
-    # - curl -XGET "https://circleci.com/api/v1/project/stridespark/schema/latest/artifacts?circle-token=${CIRCLE_TOKEN}&branch=master&filter=successful" -o output.json
-    # - url=$(grep 'url.*full_schema' output.json) && curl -XGET "${url:11:(-1)}?circle-token=${CIRCLE_TOKEN}" -o full_schema.sql
-
-# database:
-#   override:
-#     - createdb stridespark-test
-#     - psql -d stridespark-test -a -f full_schema.sql
 
 test:
   pre:
     - tsc
-  post:
-    - mv coverage/* $CIRCLE_ARTIFACTS/ || exit_on_error "No coverage!"
 
 deployment:
   npm:
