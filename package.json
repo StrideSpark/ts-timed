@@ -1,15 +1,21 @@
 {
   "name": "ts-timed",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Typescript decorators for timing async and synchronous functions",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "2npm": "tsc --declaration && publish"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/StrideSpark/ts-timed.git"
   },
+  "files": [
+    "*.ts",
+    "*.js",
+    "*.map"
+  ],
   "keywords": [
     "decorator",
     "typescript",
@@ -23,6 +29,7 @@
   },
   "homepage": "https://github.com/StrideSpark/ts-timed#readme",
   "devDependencies": {
+    "publish": "0.6.0",
     "typescript": "2.0.3"
   }
 }
