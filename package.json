@@ -4,7 +4,7 @@
   "description": "Typescript decorators for timing async and synchronous functions",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js",
+    "test": "echo 'no tests'",
     "2npm": "tsc --declaration && publish"
   },
   "repository": {
