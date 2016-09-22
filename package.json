@@ -1,0 +1,25 @@
+{
+  "name": "ts-timed",
+  "version": "1.0.0",
+  "description": "Typescript decorators for timing async and synchronous functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StrideSpark/ts-timed.git"
+  },
+  "keywords": [
+    "decorator",
+    "typescript",
+    "timer",
+    "metrics"
+  ],
+  "author": "mschoendorf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StrideSpark/ts-timed/issues"
+  },
+  "homepage": "https://github.com/StrideSpark/ts-timed#readme"
+}
