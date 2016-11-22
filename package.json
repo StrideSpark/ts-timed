@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "2npm": "tsc --declaration && publish",
-    "test": "istabul cover _mocha"
+    "test": "istanbul cover _mocha"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,11 @@
   },
   "homepage": "https://github.com/StrideSpark/ts-timed#readme",
   "devDependencies": {
+    "@types/chai": "3.4.34",
+    "@types/mocha": "2.2.33",
+    "chai": "3.5.0",
+    "istanbul": "0.4.5",
+    "mocha": "3.1.2",
     "publish": "0.6.0",
     "typescript": "2.0.3"
   }
