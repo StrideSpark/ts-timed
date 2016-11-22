@@ -4,8 +4,8 @@
   "description": "Typescript decorators for timing async and synchronous functions",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'no tests'",
-    "2npm": "tsc --declaration && publish"
+    "2npm": "tsc --declaration && publish",
+    "test": "istabul cover _mocha"
   },
   "repository": {
     "type": "git",
