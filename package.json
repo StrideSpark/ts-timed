@@ -12,9 +12,8 @@
     "url": "git+https://github.com/StrideSpark/ts-timed.git"
   },
   "files": [
-    "*.ts",
-    "*.js",
-    "*.map"
+    "*.d.ts",
+    "*.js"
   ],
   "keywords": [
     "decorator",
@@ -35,6 +34,6 @@
     "istanbul": "0.4.5",
     "mocha": "3.1.2",
     "publish": "0.6.0",
-    "typescript": "2.0.3"
+    "typescript": "2.0.10"
   }
 }
