@@ -12,7 +12,7 @@
  * @returns {function(any, string, TypedPropertyDescriptor<Function>): undefined}
  */
 export interface extraDataDogTags {
-    category?: "add" | "preview" | "fetch" | "validate" | "publish" | "update" | "archive";
+    category?: string;
 }
 
 
