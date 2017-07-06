@@ -11,6 +11,11 @@
  * @param sendDuration
  * @returns {function(any, string, TypedPropertyDescriptor<Function>): undefined}
  */
+export interface extraDataDogTags {
+    category?: string;
+}
+
+
 export function timedAsync(sendDuration: (className: string, functionName: string, durationMs: number) => Promise<any>) {
     return function (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) {
         let functionName: string = propertyName;
@@ -28,6 +33,28 @@ export function timedAsync(sendDuration: (className: string, functionName: strin
             }
             return method.apply(this, arguments).then((r: any) => {
                 sendDuration(className, functionName, new Date().valueOf() - start.valueOf());
+                return r;
+            });
+        }
+    }
+}
+export function timedAsyncWithTags(sendDurationWithTags: (className: string, functionName: string, durationMs: number, extraTags: Object) => Promise<any>, extraTags: extraDataDogTags) {
+    return function (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) {
+        let functionName: string = propertyName;
+        let className: string;
+        if (typeof target === 'function') {
+            className = target.name;
+        } else {
+            className = target.constructor.name;
+        }
+        let method = descriptor.value;
+        descriptor.value = function () {
+            let start = new Date();
+            if (!method) {
+                throw new Error('method missing');
+            }
+            return method.apply(this, arguments).then((r: any) => {
+                sendDurationWithTags(className, functionName, new Date().valueOf() - start.valueOf(), extraTags);
                 return r;
             });
         }
