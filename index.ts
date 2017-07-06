@@ -11,6 +11,11 @@
  * @param sendDuration
  * @returns {function(any, string, TypedPropertyDescriptor<Function>): undefined}
  */
+export interface extraDataDogTags {
+    category?: "add" | "preview" | "fetch" | "validate" | "publish" | "update" | "archive";
+}
+
+
 export function timedAsync(sendDuration: (className: string, functionName: string, durationMs: number) => Promise<any>) {
     return function (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) {
         let functionName: string = propertyName;
@@ -33,7 +38,7 @@ export function timedAsync(sendDuration: (className: string, functionName: strin
         }
     }
 }
-export function timedAsyncWithTags(sendDurationWithTags: (className: string, functionName: string, durationMs: number, extraTags: Object) => Promise<any>, extraTags: Object) {
+export function timedAsyncWithTags(sendDurationWithTags: (className: string, functionName: string, durationMs: number, extraTags: Object) => Promise<any>, extraTags: extraDataDogTags) {
     return function (target: any, propertyName: string, descriptor: TypedPropertyDescriptor<Function>) {
         let functionName: string = propertyName;
         let className: string;
