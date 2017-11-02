@@ -5,7 +5,8 @@
     "target": "es6",
     "sourceMap": true,
     "experimentalDecorators": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "strict": true
   },
   "exclude": [
     "node_modules"
