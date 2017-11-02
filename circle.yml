@@ -9,7 +9,6 @@ dependencies:
 test:
   pre:
     - tsc
-    - node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
 
 deployment:
   npm:
