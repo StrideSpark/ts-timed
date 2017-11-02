@@ -9,8 +9,7 @@ dependencies:
 test:
   pre:
     - tsc
-  post:
-    - mv coverage/* $CIRCLE_ARTIFACTS/ || exit_on_error "No coverage!"
+    - node_modules/.bin/nyc report --reporter=text-lcov > coverage.lcov
 
 deployment:
   npm:
