@@ -25,11 +25,11 @@ export function timedAsync(
         propertyName: string | symbol,
         descriptor: TypedPropertyDescriptor<any>
     ) => {
-        let functionName: string = String(propertyName);
+        const functionName: string = String(propertyName);
         const className = target.constructor.name;
-        let method = descriptor.value;
+        const method = descriptor.value;
         descriptor.value = function() {
-            let start = new Date();
+            const start = new Date();
             if (!method) {
                 throw new Error('method missing');
             }
@@ -59,7 +59,7 @@ export function timedAsyncWithTags(
         const className = target.constructor.name;
         const method = descriptor.value;
         descriptor.value = function() {
-            let start = new Date();
+            const start = new Date();
             if (!method) {
                 throw new Error('method missing');
             }
@@ -100,8 +100,8 @@ export function timed(
             if (!method) {
                 throw new Error('method missing');
             }
-            let start = new Date();
-            let ret = method.apply(this, arguments);
+            const start = new Date();
+            const ret = method.apply(this, arguments);
             sendDuration(className, functionName, new Date().valueOf() - start.valueOf());
             return ret;
         };
