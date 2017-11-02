@@ -26,7 +26,6 @@ export function timedAsync(
         descriptor: TypedPropertyDescriptor<any>
     ) => {
         let functionName: string = String(propertyName);
-
         const className = target.constructor.name;
         let method = descriptor.value;
         descriptor.value = function() {
