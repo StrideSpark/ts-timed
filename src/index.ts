@@ -34,11 +34,15 @@ export function timedAsync(
                 throw new Error('method missing');
             }
             return method.apply(this, arguments).then((r: any) => {
-                sendDuration(
-                    className,
-                    functionName,
-                    new Date().valueOf() - start.valueOf()
-                ).catch(err => console.error({ err }, 'failed to send duration in timedAsync'));
+                try {
+                    sendDuration(
+                        className,
+                        functionName,
+                        new Date().valueOf() - start.valueOf()
+                    ).catch(err => console.error({ err }, 'failed to send duration in timedAsync'));
+                } catch (err) {
+                    console.error({ err }, 'failed to send duration in timedAsync');
+                }
                 return r;
             });
         };
@@ -68,14 +72,18 @@ export function timedAsyncWithTags(
                 throw new Error('method missing');
             }
             return method.apply(this, arguments).then((r: any) => {
-                sendDurationWithTags(
-                    className,
-                    functionName,
-                    new Date().valueOf() - start.valueOf(),
-                    extraTags
-                ).catch(err =>
-                    console.error({ err }, 'failed to send duration in timedAsyncWithTags')
-                );
+                try {
+                    sendDurationWithTags(
+                        className,
+                        functionName,
+                        new Date().valueOf() - start.valueOf(),
+                        extraTags
+                    ).catch(err =>
+                        console.error({ err }, 'failed to send duration in timedAsyncWithTags')
+                    );
+                } catch (err) {
+                    console.error({ err }, 'failed to send duration in timedAsyncWithTags');
+                }
                 return r;
             });
         };
@@ -108,11 +116,15 @@ export function timed(
             }
             const start = new Date();
             const ret = method.apply(this, arguments);
-            sendDuration(
-                className,
-                functionName,
-                new Date().valueOf() - start.valueOf()
-            ).catch(err => console.error({ err }, 'failed to send duration in timed'));
+            try {
+                sendDuration(
+                    className,
+                    functionName,
+                    new Date().valueOf() - start.valueOf()
+                ).catch(err => console.error({ err }, 'failed to send duration in timed'));
+            } catch (err) {
+                console.error({ err }, 'failed to send duration in timed');
+            }
             return ret;
         };
     };
