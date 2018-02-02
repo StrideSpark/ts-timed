@@ -29,12 +29,20 @@ export function timedAsync(
         const className = target.constructor.name;
         const method = descriptor.value;
         descriptor.value = function() {
-            const start = new Date();
+            const start = process.hrtime();
             if (!method) {
                 throw new Error('method missing');
             }
             return method.apply(this, arguments).then((r: any) => {
-                sendDuration(className, functionName, new Date().valueOf() - start.valueOf());
+                try {
+                    const diff = process.hrtime(start);
+                    const dur = Math.round(diff[0] * 1e3 + diff[1] * 1e-6);
+                    sendDuration(className, functionName, dur).catch(err =>
+                        console.error({ err }, 'failed to send duration in timedAsync')
+                    );
+                } catch (err) {
+                    console.error({ err }, 'failed to send duration in timedAsync');
+                }
                 return r;
             });
         };
@@ -59,17 +67,20 @@ export function timedAsyncWithTags(
         const className = target.constructor.name;
         const method = descriptor.value;
         descriptor.value = function() {
-            const start = new Date();
+            const start = process.hrtime();
             if (!method) {
                 throw new Error('method missing');
             }
             return method.apply(this, arguments).then((r: any) => {
-                sendDurationWithTags(
-                    className,
-                    functionName,
-                    new Date().valueOf() - start.valueOf(),
-                    extraTags
-                );
+                try {
+                    const diff = process.hrtime(start);
+                    const dur = Math.round(diff[0] * 1e3 + diff[1] * 1e-6);
+                    sendDurationWithTags(className, functionName, dur, extraTags).catch(err =>
+                        console.error({ err }, 'failed to send duration in timedAsyncWithTags')
+                    );
+                } catch (err) {
+                    console.error({ err }, 'failed to send duration in timedAsyncWithTags');
+                }
                 return r;
             });
         };
@@ -100,9 +111,17 @@ export function timed(
             if (!method) {
                 throw new Error('method missing');
             }
-            const start = new Date();
+            const start = process.hrtime();
             const ret = method.apply(this, arguments);
-            sendDuration(className, functionName, new Date().valueOf() - start.valueOf());
+            try {
+                const diff = process.hrtime(start);
+                const dur = Math.round(diff[0] * 1e3 + diff[1] * 1e-6);
+                sendDuration(className, functionName, dur).catch(err =>
+                    console.error({ err }, 'failed to send duration in timed')
+                );
+            } catch (err) {
+                console.error({ err }, 'failed to send duration in timed');
+            }
             return ret;
         };
     };
