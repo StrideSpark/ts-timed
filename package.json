@@ -1,6 +1,6 @@
 {
   "name": "ts-timed",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Typescript decorators for timing async and synchronous functions",
   "main": "src/index.js",
   "typings": "src/index.d.ts",

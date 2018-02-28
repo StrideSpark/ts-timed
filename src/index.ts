@@ -2,6 +2,10 @@
  * Created by meganschoendorf on 7/13/16.
  */
 
+export interface extraDataDogTags {
+    category?: string;
+}
+
 /**
  * This decorator calculates the time it takes the method to execute and calls the function sendDuration with the class
  * name, function name, and duration in ms.
@@ -11,12 +15,6 @@
  * @param sendDuration
  * @returns {function(any, string, TypedPropertyDescriptor<Function>): undefined}
  */
-export interface extraDataDogTags {
-    category?: string;
-}
-
-//   declare type MethodDecorator = <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => TypedPropertyDescriptor<T> | void;
-
 export function timedAsync(
     sendDuration: (className: string, functionName: string, durationMs: number) => Promise<any>
 ): MethodDecorator {
@@ -30,10 +28,9 @@ export function timedAsync(
         const method = descriptor.value;
         descriptor.value = function() {
             const start = process.hrtime();
-            if (!method) {
-                throw new Error('method missing');
-            }
+            if (!method) throw new Error('method missing');
             return method.apply(this, arguments).then((r: any) => {
+                if (process.env.DISABLE_TS_TIMED === 'true') return r;
                 try {
                     const diff = process.hrtime(start);
                     const dur = Math.round(diff[0] * 1e3 + diff[1] * 1e-6);
@@ -68,10 +65,9 @@ export function timedAsyncWithTags(
         const method = descriptor.value;
         descriptor.value = function() {
             const start = process.hrtime();
-            if (!method) {
-                throw new Error('method missing');
-            }
+            if (!method) throw new Error('method missing');
             return method.apply(this, arguments).then((r: any) => {
+                if (process.env.DISABLE_TS_TIMED === 'true') return r;
                 try {
                     const diff = process.hrtime(start);
                     const dur = Math.round(diff[0] * 1e3 + diff[1] * 1e-6);
@@ -108,11 +104,10 @@ export function timed(
         const className = target.constructor.name;
         const method = descriptor.value;
         descriptor.value = function() {
-            if (!method) {
-                throw new Error('method missing');
-            }
+            if (!method) throw new Error('method missing');
             const start = process.hrtime();
             const ret = method.apply(this, arguments);
+            if (process.env.DISABLE_TS_TIMED === 'true') return ret;
             try {
                 const diff = process.hrtime(start);
                 const dur = Math.round(diff[0] * 1e3 + diff[1] * 1e-6);
