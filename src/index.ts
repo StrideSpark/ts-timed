@@ -28,9 +28,7 @@ export function timedAsync(
         const method = descriptor.value;
         descriptor.value = function() {
             const start = process.hrtime();
-            if (!method) {
-                throw new Error('method missing');
-            }
+            if (!method) throw new Error('method missing');
             return method.apply(this, arguments).then((r: any) => {
                 if (process.env.DISABLE_TS_TIMED === 'true') return r;
                 try {
@@ -67,9 +65,7 @@ export function timedAsyncWithTags(
         const method = descriptor.value;
         descriptor.value = function() {
             const start = process.hrtime();
-            if (!method) {
-                throw new Error('method missing');
-            }
+            if (!method) throw new Error('method missing');
             return method.apply(this, arguments).then((r: any) => {
                 if (process.env.DISABLE_TS_TIMED === 'true') return r;
                 try {
@@ -108,9 +104,7 @@ export function timed(
         const className = target.constructor.name;
         const method = descriptor.value;
         descriptor.value = function() {
-            if (!method) {
-                throw new Error('method missing');
-            }
+            if (!method) throw new Error('method missing');
             const start = process.hrtime();
             const ret = method.apply(this, arguments);
             if (process.env.DISABLE_TS_TIMED === 'true') return ret;
